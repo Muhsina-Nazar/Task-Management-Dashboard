@@ -1,51 +1,52 @@
-# 📋 Task Management Dashboard
+TASK MANAGEMENT DASHBOARD
 
-A **production-quality**, fully-featured Task Management Dashboard built with modern web technologies. This application provides a complete task lifecycle management experience with a premium, responsive UI that works beautifully across all devices.
+A responsive task management application built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui. It allows users to create, update, organize, and track tasks through a clean and intuitive interface. The project includes task filtering, sorting, search functionality, pagination, dark mode support, and a simple mock authentication system.
 
----
+------------------------------------------------------------------------
 
-## ✨ Features
+FEATURES
 
-### Core Features
-- **🔐 Mock Authentication** — Login with any valid email/password, session persisted in localStorage
-- **📊 Interactive Dashboard** — Real-time statistics, progress tracking, and task analytics
-- **✅ Full CRUD Operations** — Create, Read, Update, and Delete tasks with instant feedback
-- **🔍 Real-time Search** — Case-insensitive search by task title with instant filtering
-- **🏷️ Status Filtering** — Filter tasks by All, Todo, In Progress, or Completed
-- **📅 Date Sorting** — Sort tasks by due date (Newest First / Oldest First)
-- **📄 Client-side Pagination** — 5 tasks per page with page indicators and navigation
+Core Features
 
-### Bonus Features
-- **🌗 Dark Mode** — System-aware theme toggle with localStorage persistence
-- **🎨 Premium UI** — Glassmorphism, micro-animations, gradient accents, and smooth transitions
-- **📱 Responsive Design** — Desktop table view + mobile card view with adaptive layouts
-- **🔔 Toast Notifications** — Animated success/error/warning/info feedback system
-- **🧪 Unit Tests** — Jest + React Testing Library test suites for creation and filtering
-- **🗂️ Empty State UI** — Beautiful empty states with actionable reset options
-- **⏳ Loading States** — Animated skeleton-style loaders during data retrieval
-- **⚠️ Overdue Detection** — Visual indicators for tasks past their due date
+Mock Authentication – Simple login flow with session persistence using localStorage.
+Dashboard Overview – Displays task statistics and progress information.
+Task Management – Create, edit, update, and delete tasks.
+Search Tasks – Search tasks by title with instant filtering.
+Status Filters – Filter tasks by Todo, In Progress, and Completed status.
+Due Date Sorting – Sort tasks based on their deadlines.
+Pagination – Navigate tasks using client-side pagination.
 
----
+Additional Features
 
-## 🛠️ Tech Stack
+Dark Mode – Switch between light and dark themes with saved preferences.
+Responsive Design – Optimized for desktop, tablet, and mobile devices.
+Toast Notifications – Feedback messages for user actions.
+Unit Testing – Basic test coverage using Jest and React Testing Library.
+Empty States – Helpful UI when no tasks are available.
+Loading States – Loading indicators for improved user experience.
+Overdue Task Indicators – Highlights tasks that have passed their due date.
 
-| Category | Technology |
-|---|---|
-| **Framework** | Next.js 15+ (App Router) |
-| **Language** | TypeScript (Strict Mode) |
-| **Styling** | Tailwind CSS v4 |
-| **UI Components** | Custom shadcn/ui-inspired components |
-| **Form Handling** | React Hook Form |
-| **Validation** | Zod |
-| **Icons** | Lucide React |
-| **Theme** | next-themes |
-| **State** | React Context + localStorage |
-| **API** | Next.js Route Handlers (Mock) |
-| **Testing** | Jest + React Testing Library |
+------------------------------------------------------------------------------
 
----
+TECH STACK
 
-## 📁 Folder Structure
+The project was developed using the following technologies:
+
+* **Next.js 15** (App Router)
+* **TypeScript** – for type-safe development
+* **Tailwind CSS v4** – for styling and responsive layouts
+* **shadcn/ui** – for reusable UI components
+* **React Hook Form** – for form handling
+* **Zod** – for form validation
+* **Lucide React** – for icons
+* **next-themes** – for dark mode support
+* **React Context + localStorage** – for state management and data persistence
+* **Next.js Route Handlers** – for mock API endpoints
+* **Jest & React Testing Library** – for unit testing
+
+------------------------------------------------------------------------------
+
+FOLDER STRUCTURE
 
 ```
 src/
@@ -110,15 +111,16 @@ src/
     └── task-filtering.test.tsx  # Task filtering unit test
 ```
 
----
+----------------------------------------------------------------------
 
-## 🚀 Installation
+INSTALLATION
 
-### Prerequisites
-- **Node.js** 18.17+ 
-- **npm** 9+
+Prerequisites
 
-### Steps
+- Node.js 18.17+ 
+- npm 9+
+
+Steps
 
 ```bash
 # 1. Clone or navigate to the project directory
@@ -134,9 +136,9 @@ npm run dev
 # Visit http://localhost:3000
 ```
 
----
+----------------------------------------------------------------------
 
-## 📖 Running Locally
+RUNNING LOCALLY
 
 ```bash
 # Development server (with hot reload)
@@ -155,67 +157,87 @@ npm test
 npm run lint
 ```
 
----
+---------------------------------------------------------------------
 
-## 🎨 Design Decisions
+DESIGN DECISIONS
 
-### Architecture: Offline-First Synchronization
-The application uses an **Offline-First** data strategy:
+Architecture: Offline-First Synchronization
+
+The application uses an Offline-First data strategy:
 1. All read/write operations execute instantly against `localStorage` for zero-latency UI updates
 2. API calls to Next.js Route Handlers run simultaneously in the background
 3. This architecture simulates real-world optimistic UI patterns and can be migrated to a real backend by simply swapping the API endpoints
 
-### Authentication: Client-Side Guards
+Authentication: Client-Side Guards
+
 Since `localStorage` is only accessible in the browser context (not in Edge Middleware), route protection is enforced using a `ProtectedRoute` wrapper component that checks auth state on mount.
 
-### Component Design: Custom UI Primitives
+Component Design: Custom UI Primitives
+
 All UI components (Button, Dialog, Badge, Toast, etc.) are built from scratch following shadcn/ui patterns — providing full control over styling, animations, and accessibility without external component library dependencies.
 
-### Theme System: HSL Design Tokens
+Theme System: HSL Design Tokens
+
 Colors are defined as HSL triplets in CSS custom properties, mapped through Tailwind's `@theme` directive. This enables seamless dark/light mode transitions with a single class toggle.
 
-### Responsive Strategy: Table ↔ Card Reflow
-- **Desktop** (md+): Rich data table with inline status dropdowns and action buttons
-- **Mobile** (<md): Stacked card layout with touch-friendly controls
+Responsive Strategy: Table ↔ Card Reflow
+
+- Desktop (md+): Rich data table with inline status dropdowns and action buttons
+- Mobile (<md): Stacked card layout with touch-friendly controls
 - Both views share identical data and action handlers
 
----
+---------------------------------------------------------------------
 
-## 🔮 Future Improvements
+FUTURE IMPROVEMENTS
 
-- [ ] Real backend integration (Prisma + PostgreSQL)
-- [ ] Drag-and-drop Kanban board view
-- [ ] Task priority levels (Low, Medium, High, Critical)
-- [ ] Subtasks and checklists
-- [ ] File attachments
-- [ ] Team collaboration and task assignment
-- [ ] Real-time updates via WebSockets
-- [ ] Calendar view integration
-- [ ] Task comments and activity log
-- [ ] Export to CSV/PDF
-- [ ] E2E tests with Playwright
+-  Real backend integration (Prisma + PostgreSQL)
+-  Drag-and-drop Kanban board view
+-  Task priority levels (Low, Medium, High, Critical)
+-  Subtasks and checklists
+-  File attachments
+-  Team collaboration and task assignment
+-  Real-time updates via WebSockets
+-  Calendar view integration
+-  Task comments and activity log
+-  Export to CSV/PDF
+-  E2E tests with Playwright
 
----
+---------------------------------------------------------------------
 
-## 📸 Screenshots
+SCREENSHOTS
 
-> Screenshots can be added here after running the application locally.
+Login Page
 
-| View | Description |
-|---|---|
-| Login Page | Glassmorphism card with animated grid background |
-| Dashboard (Light) | Statistics, table view, pagination |
-| Dashboard (Dark) | Full dark mode with smooth transitions |
-| Mobile View | Responsive card-based task layout |
-| Task Dialog | Create/Edit form with Zod validation |
-| Delete Confirmation | Alert dialog with destructive action |
+![Login Page](./screenshots/login-page.png)
 
----
+Login screen with mock authentication.
 
-## 📄 License
+Dashboard (Light Mode)
+![Dashboard Light](./screenshots/dashboard-light.png)
+
+Dashboard overview with task statistics and management tools.
+
+Dashboard (Dark Mode)
+![Dashboard Dark](./screenshots/dashboard-dark.png)
+
+Dark mode version of the dashboard.
+
+Add or Edit Task
+![Add or Edit Task](./screenshots/add-edit-task.png)
+
+Task creation and editing form with validation.
+
+Delete Task Confirmation
+![Delete Task](./screenshots/delete-task.png)
+
+Confirmation dialogue displayed before task deletion.
+
+---------------------------------------------------------------------
+
+LICENSE
 
 This project is for demonstration and educational purposes.
 
 ---
 
-Built with ❤️ using Next.js 15, TypeScript, and Tailwind CSS.
+Built with using Next.js 15, TypeScript, and Tailwind CSS.
