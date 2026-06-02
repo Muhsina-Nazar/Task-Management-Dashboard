@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Task, TaskStatus } from '@/types';
+import { formatDateToDDMMYYYY, parseDateFromDDMMYYYY } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -30,7 +31,7 @@ const taskFormSchema = z.object({
     .string()
     .max(500, 'Description must be 500 characters or less'),
   status: z.enum(['Todo', 'In Progress', 'Completed'] as const),
-  dueDate: z.string().min(1, 'Due date is required').regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
+  dueDate: z.string().min(1, 'Due date is required').regex(/^\d{2}-\d{2}-\d{4}$/, 'Date must be DD-MM-YYYY'),
 });
 
 type TaskFormValues = z.infer<typeof taskFormSchema>;
@@ -78,23 +79,30 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
           title: task.title,
           description: task.description,
           status: task.status,
-          dueDate: task.dueDate,
+          dueDate: formatDateToDDMMYYYY(task.dueDate),
         });
       } else {
-        // Today's date as default
-        const today = new Date().toISOString().split('T')[0];
+        // Today's date in DD-MM-YYYY format as default
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const formattedToday = `${dd}-${mm}-${yyyy}`;
         reset({
           title: '',
           description: '',
           status: 'Todo',
-          dueDate: today,
+          dueDate: formattedToday,
         });
       }
     }
   }, [open, task, reset]);
 
   const handleFormSubmit = (data: TaskFormValues) => {
-    onSubmit(data);
+    onSubmit({
+      ...data,
+      dueDate: parseDateFromDDMMYYYY(data.dueDate),
+    });
     onOpenChange(false);
   };
 
@@ -172,7 +180,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
               </label>
               <Input
                 id="task-date"
-                type="date"
+                type="text"
+                placeholder="DD-MM-YYYY"
                 error={!!errors.dueDate}
                 {...register('dueDate')}
               />

@@ -17,7 +17,7 @@ export async function GET() {
   try {
     const tasks = mockDb.getTasks();
     return NextResponse.json(tasks);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to retrieve tasks' },
       { status: 500 }
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     
     const createdTask = mockDb.createTask(newTask);
     return NextResponse.json(createdTask, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to create task' },
       { status: 500 }

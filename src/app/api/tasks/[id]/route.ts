@@ -35,7 +35,7 @@ export async function PUT(
     }
     
     return NextResponse.json(updatedTask);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to update task' },
       { status: 500 }
@@ -57,7 +57,7 @@ export async function DELETE(
     }
     
     return NextResponse.json({ message: 'Task deleted successfully', task: deletedTask });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to delete task' },
       { status: 500 }

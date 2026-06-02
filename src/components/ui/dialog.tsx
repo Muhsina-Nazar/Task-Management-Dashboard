@@ -36,7 +36,7 @@ export const Dialog: React.FC<DialogProps> = ({ open, onOpenChange, children }) 
 
   return <>{React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { open, onOpenChange } as any);
+      return React.cloneElement(child, { open, onOpenChange } as Partial<DialogContentProps>);
     }
     return child;
   })}</>;
@@ -50,11 +50,12 @@ interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const DialogContent: React.FC<DialogContentProps> = ({
   className,
-  open,
+  open: _open,
   onOpenChange,
   children,
   ...props
 }) => {
+  void _open;
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleOverlayClick = (e: React.MouseEvent) => {

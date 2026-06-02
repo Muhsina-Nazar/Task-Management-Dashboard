@@ -23,9 +23,9 @@ export function useTasks() {
           
           // Optionally, sync server store in background
           try {
-            const serverTasks = await tasksApi.getTasks();
+            await tasksApi.getTasks();
             // If they differ, we could sync, but for this mock, keeping localStorage as local truth is clean
-          } catch (e) {
+          } catch {
             // Server offline, ignore in background
           }
         } else {
@@ -36,7 +36,7 @@ export function useTasks() {
           setIsLoading(false);
           success('Sample Data Loaded', '10 sample tasks have been generated successfully.');
         }
-      } catch (err) {
+      } catch {
         error('Data Load Error', 'Failed to load task records.');
         setIsLoading(false);
       }
@@ -82,7 +82,7 @@ export function useTasks() {
       // Persist confirmed server state
       const confirmedTasks = updatedTasks.map((t) => (t.id === tempId ? createdServerTask : t));
       localStorage.setItem('task_manager_tasks', JSON.stringify(confirmedTasks));
-    } catch (e) {
+    } catch {
       warning('Server Sync Warning', 'Task saved locally but failed to sync with background mock API.');
     }
   }, [tasks, updateLocalState, success, warning]);
@@ -93,8 +93,6 @@ export function useTasks() {
     status: TaskStatus;
     dueDate: string;
   }) => {
-    const oldTasks = [...tasks];
-    
     // Optimistic Update
     const updatedTasks = tasks.map((t) =>
       t.id === id ? { ...t, ...taskData } : t
@@ -105,7 +103,7 @@ export function useTasks() {
     try {
       // Sync in background with API route
       await tasksApi.updateTask(id, taskData);
-    } catch (e) {
+    } catch {
       warning('Server Sync Warning', 'Updates saved locally, but mock API server could not be reached.');
     }
   }, [tasks, updateLocalState, success, warning]);
@@ -122,7 +120,7 @@ export function useTasks() {
     try {
       // Sync in background with API route
       await tasksApi.deleteTask(id);
-    } catch (e) {
+    } catch {
       warning('Server Sync Warning', 'Deleted locally, but mock API server sync failed.');
     }
   }, [tasks, updateLocalState, success, warning]);
@@ -141,7 +139,7 @@ export function useTasks() {
     try {
       // Sync in background with API route
       await tasksApi.updateTask(id, { status: newStatus });
-    } catch (e) {
+    } catch {
       warning('Server Sync Warning', 'Status updated locally, but mock API server sync failed.');
     }
   }, [tasks, updateLocalState, success, warning]);

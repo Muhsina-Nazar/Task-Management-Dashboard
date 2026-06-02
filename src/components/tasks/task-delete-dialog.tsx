@@ -34,7 +34,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = ({
           </div>
           <DialogTitle className="text-center sm:text-left">Delete Task</DialogTitle>
           <DialogDescription className="text-center sm:text-left mt-2">
-            Are you sure you want to delete <span className="font-semibold text-foreground">"{taskTitle}"</span>? 
+            Are you sure you want to delete <span className="font-semibold text-foreground">&quot;{taskTitle}&quot;</span>? 
             This action cannot be undone.
           </DialogDescription>
         </DialogHeader>

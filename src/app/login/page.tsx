@@ -42,10 +42,6 @@ export default function LoginPage() {
         </div>
 
         <LoginForm />
-
-        <div className="mt-8 text-center text-xs text-muted-foreground font-mono">
-          SECURE MOCK AUTHENTICATION
-        </div>
       </div>
     </div>
   );

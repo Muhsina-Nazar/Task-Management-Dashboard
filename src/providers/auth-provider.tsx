@@ -8,7 +8,7 @@ import { User } from '@/types';
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (email: string) => Promise<void>;
+  login: (email: string, name: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -23,16 +23,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedUser = localStorage.getItem('task_manager_user');
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
+        const parsedUser = JSON.parse(storedUser);
+        setTimeout(() => {
+          setUser(parsedUser);
+          setIsLoading(false);
+        }, 0);
+        return;
+      } catch {
         localStorage.removeItem('task_manager_user');
       }
     }
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 0);
   }, []);
 
-  const login = async (email: string) => {
-    const userData = { email };
+  const login = async (email: string, name: string) => {
+    const userData: User = { email, name };
     localStorage.setItem('task_manager_user', JSON.stringify(userData));
     setUser(userData);
   };

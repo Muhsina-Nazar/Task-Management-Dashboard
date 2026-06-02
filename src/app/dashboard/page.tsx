@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ProtectedRoute } from '@/components/auth/protected-route';
 import { DashboardHeader } from '@/components/dashboard/dashboard-header';
 import { StatsSummary } from '@/components/dashboard/stats-summary';
@@ -27,6 +27,18 @@ export default function DashboardPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  // Track previous filters to reset page on change during render, avoiding useEffect setState
+  const [prevSearch, setPrevSearch] = useState(search);
+  const [prevStatusFilter, setPrevStatusFilter] = useState(statusFilter);
+  const [prevSortBy, setPrevSortBy] = useState(sortBy);
+
+  if (search !== prevSearch || statusFilter !== prevStatusFilter || sortBy !== prevSortBy) {
+    setPrevSearch(search);
+    setPrevStatusFilter(statusFilter);
+    setPrevSortBy(sortBy);
+    setCurrentPage(1);
+  }
+
   // Dialog modals states
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [activeEditTask, setActiveEditTask] = useState<Task | undefined>(undefined);
@@ -34,15 +46,10 @@ export default function DashboardPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [activeDeleteId, setActiveDeleteId] = useState<string | null>(null);
 
-  // Auto-reset page to 1 when filters or search input changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, statusFilter, sortBy]);
-
   // Compute filtered, sorted and paginated tasks lists
   const filteredAndSortedTasks = useMemo(() => {
     // 1. Filtering
-    let list = tasks.filter((task) => {
+    const list = tasks.filter((task) => {
       const matchesSearch = task.title.toLowerCase().includes(search.toLowerCase());
       const matchesStatus = statusFilter === 'All' || task.status === statusFilter;
       return matchesSearch && matchesStatus;
@@ -129,13 +136,10 @@ export default function DashboardPage() {
         <main className="flex-1 container mx-auto px-4 py-8 max-w-5xl space-y-8">
           
           {/* Header Title Grid */}
-          <div className="flex flex-col gap-1.5 border-b border-border/40 pb-4">
+          <div className="border-b border-border/40 pb-4">
             <h1 className="text-3xl font-extrabold tracking-tight">
               Task Management
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Monitor, schedule, and configure project objectives and timelines.
-            </p>
           </div>
 
           {/* Page Loading State */}
@@ -171,7 +175,7 @@ export default function DashboardPage() {
                   </div>
                   <h3 className="text-lg font-bold">No tasks found</h3>
                   <p className="text-sm text-muted-foreground max-w-sm mt-1 mb-6">
-                    We couldn't find any task records matching your filter parameters or search queries.
+                    We couldn&apos;t find any task records matching your filter parameters or search queries.
                   </p>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" onClick={handleResetFilters} className="cursor-pointer">

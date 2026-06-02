@@ -11,9 +11,10 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/toast';
-import { Eye, EyeOff, Lock, Mail, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 const loginSchema = z.object({
+  name: z.string().min(1, 'Name is required').min(2, 'Name must be at least 2 characters'),
   email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
   password: z
     .string()
@@ -37,6 +38,7 @@ export const LoginForm: React.FC = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -47,11 +49,11 @@ export const LoginForm: React.FC = () => {
     try {
       // Simulate network request
       await new Promise((resolve) => setTimeout(resolve, 800));
-      
-      await login(data.email);
-      success('Login Successful', `Welcome back, ${data.email}!`);
+
+      await login(data.email, data.name);
+      success('Login Successful', `Welcome, ${data.name}!`);
       router.push('/dashboard');
-    } catch (e) {
+    } catch {
       error('Authentication Failed', 'An error occurred during login. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -60,22 +62,41 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground/80 flex items-center gap-1.5" htmlFor="email">
-          <Mail className="h-4 w-4 text-muted-foreground" />
+      {/* Full Name */}
+      <div className="mb-5">
+        <label htmlFor="name" className="block mb-2 text-sm font-medium text-muted-foreground">
+          Full Name
+        </label>
+        <Input
+          id="name"
+          type="text"
+          placeholder="Enter your full name"
+          error={!!errors.name}
+          disabled={isSubmitting}
+          className="w-full"
+          {...register('name')}
+        />
+        {errors.name && (
+          <p className="text-xs text-destructive mt-1 font-medium animate-fade-in">
+            {errors.name.message}
+          </p>
+        )}
+      </div>
+
+      {/* Email Address */}
+      <div className="mb-5">
+        <label htmlFor="email" className="block mb-2 text-sm font-medium text-muted-foreground">
           Email Address
         </label>
-        <div className="relative">
-          <Input
-            id="email"
-            type="email"
-            placeholder="name@example.com"
-            error={!!errors.email}
-            disabled={isSubmitting}
-            className="pl-3"
-            {...register('email')}
-          />
-        </div>
+        <Input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          error={!!errors.email}
+          disabled={isSubmitting}
+          className="w-full"
+          {...register('email')}
+        />
         {errors.email && (
           <p className="text-xs text-destructive mt-1 font-medium animate-fade-in">
             {errors.email.message}
@@ -83,19 +104,19 @@ export const LoginForm: React.FC = () => {
         )}
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-foreground/80 flex items-center gap-1.5" htmlFor="password">
-          <Lock className="h-4 w-4 text-muted-foreground" />
+      {/* Password */}
+      <div className="mb-5">
+        <label htmlFor="password" className="block mb-2 text-sm font-medium text-muted-foreground">
           Password
         </label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="••••••••"
+            placeholder="Enter your password"
             error={!!errors.password}
             disabled={isSubmitting}
-            className="pr-10 pl-3"
+            className="w-full pr-10"
             {...register('password')}
           />
           <button

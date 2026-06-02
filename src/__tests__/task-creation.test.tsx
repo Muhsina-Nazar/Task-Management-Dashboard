@@ -57,7 +57,7 @@ describe('Task Dialog (Task Creation)', () => {
     fireEvent.change(titleInput, { target: { value: 'Learn Next.js 15 Testing' } });
     fireEvent.change(descTextarea, { target: { value: 'Write unit tests for task validation' } });
     fireEvent.change(statusSelect, { target: { value: 'In Progress' } });
-    fireEvent.change(dateInput, { target: { value: '2026-06-15' } });
+    fireEvent.change(dateInput, { target: { value: '15-06-2026' } });
 
     // Submit the form
     fireEvent.click(submitButton);
