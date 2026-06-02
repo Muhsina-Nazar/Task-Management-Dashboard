@@ -17,6 +17,6 @@ export interface User {
 export interface TaskFilters {
   search: string;
   status: 'All' | TaskStatus;
-  sortBy: 'Newest First' | 'Oldest First';
+  sortBy: 'Nearest Deadline' | 'Farthest Deadline';
   page: number;
 }

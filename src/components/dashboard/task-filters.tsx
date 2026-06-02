@@ -13,8 +13,8 @@ interface TaskFiltersProps {
   onSearchChange: (value: string) => void;
   statusFilter: 'All' | TaskStatus;
   onStatusFilterChange: (value: 'All' | TaskStatus) => void;
-  sortBy: 'Newest First' | 'Oldest First';
-  onSortByChange: (value: 'Newest First' | 'Oldest First') => void;
+  sortBy: 'Nearest Deadline' | 'Farthest Deadline';
+  onSortByChange: (value: 'Nearest Deadline' | 'Farthest Deadline') => void;
   onAddTaskClick: () => void;
 }
 
@@ -37,7 +37,7 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
         <div className="relative flex-1">
           <Input
             type="text"
-            placeholder="Search tasks by title..."
+            placeholder="Search tasks..."
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             className="pl-9 pr-4"
@@ -74,17 +74,18 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
         </div>
 
         {/* Sorting Dropdown */}
-        <div className="flex items-center gap-2 self-stretch md:self-auto min-w-[200px]">
-          <div className="flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background shrink-0 text-muted-foreground">
-            <CalendarDays className="h-4.5 w-4.5" />
-          </div>
+        <div className="flex flex-col gap-1 self-stretch md:self-auto min-w-[220px]">
+          <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+            <CalendarDays className="h-3.5 w-3.5" />
+            Sort by Due Date
+          </span>
           <Select
             value={sortBy}
-            onChange={(e) => onSortByChange(e.target.value as 'Newest First' | 'Oldest First')}
+            onChange={(e) => onSortByChange(e.target.value as 'Nearest Deadline' | 'Farthest Deadline')}
             className="flex-1"
           >
-            <option value="Newest First">Due Date: Newest First</option>
-            <option value="Oldest First">Due Date: Oldest First</option>
+            <option value="Nearest Deadline">Nearest Deadline</option>
+            <option value="Farthest Deadline">Farthest Deadline</option>
           </Select>
         </div>
 

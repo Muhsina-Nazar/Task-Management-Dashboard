@@ -14,7 +14,6 @@ import { useToast } from '@/components/ui/toast';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 const loginSchema = z.object({
-  name: z.string().min(1, 'Name is required').min(2, 'Name must be at least 2 characters'),
   email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
   password: z
     .string()
@@ -37,8 +36,8 @@ export const LoginForm: React.FC = () => {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    mode: 'onChange',
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
@@ -50,8 +49,14 @@ export const LoginForm: React.FC = () => {
       // Simulate network request
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      await login(data.email, data.name);
-      success('Login Successful', `Welcome, ${data.name}!`);
+      const emailPrefix = data.email.split('@')[0];
+      const derivedName = emailPrefix
+        .split(/[\._-]/)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+
+      await login(data.email, derivedName);
+      success('Login Successful', `Welcome, ${derivedName}!`);
       router.push('/dashboard');
     } catch {
       error('Authentication Failed', 'An error occurred during login. Please try again.');
@@ -62,26 +67,6 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Full Name */}
-      <div className="mb-5">
-        <label htmlFor="name" className="block mb-2 text-sm font-medium text-muted-foreground">
-          Full Name
-        </label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="Enter your full name"
-          error={!!errors.name}
-          disabled={isSubmitting}
-          className="w-full"
-          {...register('name')}
-        />
-        {errors.name && (
-          <p className="text-xs text-destructive mt-1 font-medium animate-fade-in">
-            {errors.name.message}
-          </p>
-        )}
-      </div>
 
       {/* Email Address */}
       <div className="mb-5">

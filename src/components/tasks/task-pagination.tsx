@@ -27,8 +27,8 @@ export const TaskPagination: React.FC<TaskPaginationProps> = ({
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border/60 pt-4 mt-2">
       {/* Information counts */}
-      <span className="text-xs font-medium text-muted-foreground font-mono">
-        SHOWING {startItem}-{endItem} OF {totalItems} TASKS
+      <span className="text-xs font-medium text-muted-foreground">
+        Showing {startItem}–{endItem} of {totalItems} tasks
       </span>
 
       {/* Navigation Buttons */}

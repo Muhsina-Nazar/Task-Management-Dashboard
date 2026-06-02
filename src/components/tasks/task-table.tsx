@@ -42,7 +42,7 @@ export const TaskTable: React.FC<TaskTableProps> = ({
         {/* Table Headers */}
         <thead className="bg-secondary/70 border-b border-border/80 text-muted-foreground font-mono uppercase tracking-wider text-xs">
           <tr>
-            <th className="p-4 font-bold">Task Detail</th>
+            <th className="p-4 font-bold">Task Information</th>
             <th className="p-4 font-bold w-[180px]">Status</th>
             <th className="p-4 font-bold w-[150px]">Due Date</th>
             <th className="p-4 font-bold w-[120px] text-right">Actions</th>

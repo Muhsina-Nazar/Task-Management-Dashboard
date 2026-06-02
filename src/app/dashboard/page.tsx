@@ -23,7 +23,7 @@ export default function DashboardPage() {
   // Filter, Sort and Paginate local states
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'All' | TaskStatus>('All');
-  const [sortBy, setSortBy] = useState<'Newest First' | 'Oldest First'>('Newest First');
+  const [sortBy, setSortBy] = useState<'Nearest Deadline' | 'Farthest Deadline'>('Nearest Deadline');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -60,10 +60,10 @@ export default function DashboardPage() {
       const timeA = new Date(a.dueDate).getTime();
       const timeB = new Date(b.dueDate).getTime();
       
-      if (sortBy === 'Newest First') {
-        return timeB - timeA; // Descending
+      if (sortBy === 'Nearest Deadline') {
+        return timeA - timeB; // Ascending — closest deadline first
       } else {
-        return timeA - timeB; // Ascending
+        return timeB - timeA; // Descending — farthest deadline first
       }
     });
 
@@ -125,7 +125,7 @@ export default function DashboardPage() {
   const handleResetFilters = () => {
     setSearch('');
     setStatusFilter('All');
-    setSortBy('Newest First');
+    setSortBy('Nearest Deadline');
   };
 
   return (
